@@ -33,6 +33,7 @@
     </div>
 
     <script>
+        // Agregar el evento de submit al formulario
         document.getElementById('reservaForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -42,6 +43,12 @@
             const fechaSalida = document.getElementById('fechaSalida').value;
             const tipoHabitacion = document.getElementById('tipoHabitacion').value;
 
+            // Verificar si los campos obligatorios están completos
+            if (!nombre || !fechaEntrada || !fechaSalida || !tipoHabitacion) {
+                document.getElementById('resultado').textContent = 'Por favor, completa todos los campos.';
+                return;
+            }
+
             // Crear el objeto con los datos del formulario
             const datosReserva = {
                 nombre: nombre,
@@ -50,25 +57,36 @@
                 tipoHabitacion: tipoHabitacion
             };
 
+            // Mostrar un mensaje mientras se espera la respuesta del servidor
+            document.getElementById('resultado').textContent = 'Enviando la reserva...';
+
             // Enviar la solicitud POST al servidor
-            fetch('http://localhost:3000/reservar', {
+            fetch('https://servidor-html.onrender.com/reservar', {  // Cambié la URL a la de Render
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(datosReserva)
+                body: JSON.stringify(datosReserva)  // Convertir los datos del formulario a JSON
             })
-            .then(response => response.json())
+            .then(response => response.json())  // Esperar la respuesta en formato JSON
             .then(data => {
-                // Mostrar el resultado en el frontend
-                document.getElementById('resultado').textContent = data.message || 'Reserva exitosa!';
+                if (data.message) {
+                    // Mostrar mensaje si la reserva es exitosa
+                    document.getElementById('resultado').textContent = 
+                        `Reserva confirmada para ${datosReserva.nombre}. Habitación: ${datosReserva.tipoHabitacion}, 
+                         del ${datosReserva.fechaEntrada} al ${datosReserva.fechaSalida}.`;
+                } else {
+                    // Mostrar mensaje de error si hay algún problema
+                    document.getElementById('resultado').textContent = 'Hubo un error en la reserva: ' + data.error;
+                }
             })
             .catch(error => {
-                // Mostrar mensaje de error
-                document.getElementById('resultado').textContent = 'Hubo un error en la reserva: ' + error.message;
+                // Mostrar mensaje de error si no se puede hacer la solicitud al servidor
+                document.getElementById('resultado').textContent = 'Error al conectar con el servidor: ' + error.message;
             });
         });
     </script>
 
 </body>
 </html>
+
