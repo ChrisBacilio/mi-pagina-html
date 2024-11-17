@@ -7,6 +7,7 @@ const app = express();
 const db = new sqlite3.Database('./basedatos.db');
 
 // Middleware para habilitar CORS
+// Aquí, puedes especificar qué dominios pueden hacer solicitudes si es necesario. Para permitir todos los dominios:
 app.use(cors());
 
 // Middleware para analizar el cuerpo de la solicitud como JSON
@@ -43,4 +44,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-
