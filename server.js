@@ -12,11 +12,6 @@ app.use(cors());
 // Middleware para analizar el cuerpo de la solicitud como JSON
 app.use(bodyParser.json());
 
-// Ruta para verificar que el servidor está funcionando
-app.get('/', (req, res) => {
-    res.send('Servidor funcionando');
-});
-
 // Ruta para recibir la solicitud POST y guardar los datos en la base de datos
 app.post('/reservar', (req, res) => {
     const { nombre, fechaEntrada, fechaSalida, tipoHabitacion } = req.body;
@@ -40,6 +35,10 @@ app.post('/reservar', (req, res) => {
 const PORT = process.env.PORT || 3000;
 
 // Iniciar el servidor
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});
+
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
