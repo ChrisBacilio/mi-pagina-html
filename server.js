@@ -12,6 +12,11 @@ app.use(cors());
 // Middleware para analizar el cuerpo de la solicitud como JSON
 app.use(bodyParser.json());
 
+// Ruta para la raíz del servidor
+app.get('/', (req, res) => {
+    res.send('Bienvenido a mi página de reservas');
+});
+
 // Ruta para recibir la solicitud POST y guardar los datos en la base de datos
 app.post('/reservar', (req, res) => {
     const { nombre, fechaEntrada, fechaSalida, tipoHabitacion } = req.body;
@@ -38,3 +43,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
