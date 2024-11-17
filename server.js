@@ -1,7 +1,7 @@
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const bodyParser = require('body-parser');
-const cors = require('cors'); // Asegúrate de haberlo instalado
+const cors = require('cors');
 
 const app = express();
 const db = new sqlite3.Database('./basedatos.db');
@@ -31,7 +31,11 @@ app.post('/reservar', (req, res) => {
     });
 });
 
+// Usar el puerto dinámico proporcionado por Render, o 3000 si no está disponible
+const PORT = process.env.PORT || 3000;
+
 // Iniciar el servidor
-app.listen(3000, () => {
-    console.log('Servidor corriendo en http://localhost:3000');
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+
