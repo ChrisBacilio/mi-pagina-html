@@ -37,8 +37,27 @@ app.post('/reservar', (req, res) => {
     });
 });
 
+// Ruta para obtener todas las reservas
+app.get('/reservas', (req, res) => {
+    const sql = 'SELECT * FROM reservas';  // Consulta SQL para obtener todas las reservas
+
+    // Ejecutar la consulta en la base de datos
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });  // Si ocurre un error, responde con el error
+        }
+        res.status(200).json({ reservas: rows });  // Si todo está bien, responde con las reservas en formato JSON
+    });
+});
+
 // Usar el puerto proporcionado por Render, o 3000 si no está disponible
 const PORT = process.env.PORT || 3000;
+
+// Iniciar el servidor
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});
+
 
 // Iniciar el servidor
 app.listen(PORT, () => {
